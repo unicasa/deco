@@ -1,0 +1,10 @@
+:root {
+  --unicasa: #991740;
+  --white: #fff;
+  --black: #000;
+}
+
+a {
+  text-decoration: none;
+  color: currentColor;
+}
