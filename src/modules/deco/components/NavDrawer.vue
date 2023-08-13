@@ -1,15 +1,23 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
+import { useAuthStore } from '../../../stores/auth'
+import { storeToRefs } from 'pinia'
+
+const auth = useAuthStore()
+const { authUser } = storeToRefs(auth)
 
 const rail = ref(true)
 const drawer = ref(true)
+
+const displayName = computed(() => authUser.value?.displayName ?? 'Usuario')
 </script>
 
 <template>
   <v-navigation-drawer v-model="drawer" :rail="rail" permanent @click="rail = false">
     <v-list-item
-      prepend-avatar="https://randomuser.me/api/portraits/men/85.jpg"
-      title="John Leider"
+      prepend-avatar="/img/user_profile_fallback.png"
+      :title="displayName"
+      :subtitle="authUser?.email"
       nav
     >
       <template v-slot:append>
@@ -20,13 +28,12 @@ const drawer = ref(true)
     <v-divider></v-divider>
 
     <v-list density="compact" nav>
-      <v-list-item prepend-icon="mdi-home-city" title="Home" value="home"> </v-list-item>
-      <v-list-item prepend-icon="mdi-account" title="My Account" value="account"></v-list-item>
+      <v-list-item title="Articulos" prepend-icon="mdi-shape" :to="{ name: 'articles' }" />
       <v-list-item
-        prepend-icon="mdi-account-group-outline"
-        title="Users"
-        value="users"
-      ></v-list-item>
+        title="Transferencias"
+        prepend-icon="mdi-swap-horizontal"
+        :to="{ name: 'transfers' }"
+      />
     </v-list>
   </v-navigation-drawer>
 </template>

@@ -7,9 +7,9 @@ const { logout } = useAuthStore()
 </script>
 
 <template>
-  <v-sheet max-width="1200" class="mx-auto">
+  <v-sheet max-width="1440" class="mx-auto">
     <v-layout>
-      <v-app-bar color="red-darken-4">
+      <v-app-bar class="has-bg-unicasa has-color-white">
         <template #prepend>
           <v-btn :to="{ name: 'deco' }"> Unicasa - Deco </v-btn>
         </template>
@@ -21,7 +21,7 @@ const { logout } = useAuthStore()
       <NavDrawer />
 
       <v-main>
-        <v-container>
+        <v-container fluid class="py-12">
           <RouterView />
         </v-container>
       </v-main>

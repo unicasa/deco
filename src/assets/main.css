@@ -1,5 +1,6 @@
 :root {
   --unicasa: #991740;
+  --contrast: #f1f1f1;
   --white: #fff;
   --black: #000;
 }
@@ -7,4 +8,15 @@
 a {
   text-decoration: none;
   color: currentColor;
+}
+
+.has-bg-unicasa {
+  background-color: var(--unicasa, #991740) !important;
+}
+.has-color-unicasa {
+  color: var(--unicasa, #991740) !important;
+}
+
+.has-color-white {
+  color: var(--white, #fff) !important;
 }

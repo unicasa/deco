@@ -38,7 +38,7 @@ const submit = handleSubmit(async ({ email, password }) => {
         :error-messages="password.errorMessage.value"
       />
 
-      <v-btn class="btn-login mt-2" @click="submit"> Iniciar Sesión </v-btn>
+      <v-btn class="mt-2 has-bg-unicasa has-color-white" @click="submit"> Iniciar Sesión </v-btn>
     </v-form>
 
     <!-- TODO: Enlazar a soporte -->
@@ -55,11 +55,6 @@ const submit = handleSubmit(async ({ email, password }) => {
 </template>
 
 <style>
-.btn-login {
-  background-color: var(--unicasa, #991740);
-  color: var(--white, #fff);
-}
-
 .alert-login {
   position: fixed;
   bottom: 1vw;

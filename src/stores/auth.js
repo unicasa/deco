@@ -1,8 +1,8 @@
 import { ref, computed, onMounted } from 'vue'
 import { defineStore } from 'pinia'
 import { useRouter } from 'vue-router'
-import { signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth'
 import { useFirebaseAuth } from 'vuefire'
+import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth'
 
 const errorMap = {
   'auth/user-not-found': 'Usuario no encontrado, verifique el correo introducido',
@@ -10,27 +10,18 @@ const errorMap = {
 }
 
 export const useAuthStore = defineStore('auth', () => {
-  const auth = useFirebaseAuth()
   const router = useRouter()
+  const auth = useFirebaseAuth()
 
   // State
   const authUser = ref(null)
   const errorMessage = ref('')
 
-  onMounted(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (!user) return
-      authUser.value = user
-    })
-  })
-
   const login = async ({ email, password }) => {
     try {
-      const user = await signInWithEmailAndPassword(auth, email, password).then(
-        (credential) => credential.user
-      )
+      const userCredential = await signInWithEmailAndPassword(auth, email, password)
 
-      authUser.value = user
+      authUser.value = userCredential.user
       router.push({ name: 'deco' })
     } catch (error) {
       const errorLog = new Error(`${errorMap[error.code]} (${error.code})`)
@@ -59,9 +50,19 @@ export const useAuthStore = defineStore('auth', () => {
       })
   }
 
+  const checkAuthStatus = () => {
+    onAuthStateChanged(auth, (user) => {
+      user ? (authUser.value = user) : (authUser.value = null)
+    })
+  }
+
+  // Validate the session user
+  onMounted(() => checkAuthStatus())
+
   return {
     login,
     logout,
+    authUser,
     errorMessage,
     isAuth: computed(() => Boolean(authUser.value)),
     hasError: computed(() => Boolean(errorMessage.value))
